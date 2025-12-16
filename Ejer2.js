@@ -33,7 +33,7 @@ async function entregarPaquetes(paquetes) {
             exito: false,
             error: "Falla en reparto",
             duracion,
-            fin // Necesario para ordenar después
+            fin // Necesario para ordenar despues
           });
         } else {
           console.log(`${paquete.id} entregado en ${duracion}ms`);
@@ -48,21 +48,21 @@ async function entregarPaquetes(paquetes) {
     });
   };
 
-  // Lanzamos todas las entregas *al mismo tiempo* (sin await aún)
+  // Lanzamos todas las entregas *al mismo tiempo* y sin await aun
   const promesas = paquetes.map(entregar); // Crea un array de promesas
 
-  // Esperamos a que *todas* terminen (éxitos y fallos incluidos)
+  // Esperamos a que *todas* terminen en exitos y fallos incluidos
   const resultadosSinOrdenar = await Promise.all(promesas);
 
-  // Ordenamos los resultados por momento de finalización (para saber quién terminó primero)
+  // Ordenamos los resultados por momento de finalización y para saber quien termino primero
   const resultadosOrdenados = resultadosSinOrdenar
-    .sort((a, b) => a.fin - b.fin) // De menor a mayor tiempo de finalización
+    .sort((a, b) => a.fin - b.fin) // De menor a mayor tiempo de finalizacion
     .map((r, i) => ({ ...r, orden: i + 1 })); // Añadimos número de orden (1°, 2°, etc.)
 
   const finGlobal = Date.now();
   const total = finGlobal - inicioGlobal;
 
-  // Mostramos el orden real en que *terminaron* las entregas (no el de inicio)
+  // Mostramos el orden real en que *terminaron* las entregas y no el de inicio
   console.log("\nOrden real de finalización:");
   resultadosOrdenados.forEach(r => {
     console.log(`${r.orden}. ${r.id} — ${r.exito ? "" : ""} (${r.duracion}ms)`);
@@ -72,7 +72,7 @@ async function entregarPaquetes(paquetes) {
   const exitosos = resultadosOrdenados.filter(r => r.exito);
   const fallidos = resultadosOrdenados.filter(r => !r.exito);
 
-  // Generamos informe consolidado (útil para logs, tests o UI posterior)
+  //se crea una constante para almacenar el informe
   const informe = {
     entregados: exitosos.length,
     fallidos: fallidos.length,

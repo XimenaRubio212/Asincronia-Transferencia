@@ -29,6 +29,9 @@ const validarCorreo = (correo) =>
 const validarDocumento = (doc) =>
   new Promise((resolve, reject) => {
     setTimeout(() => {
+      //devuelve true si cumple el formato
+      //es un metodo de validacion qeu asegura que el campo documento contenga solo numeros
+      //y que su longitud este comprendida entre 6 y 10
       const valido = /^\d{6,10}$/.test(doc);
       if (valido) {
         resolve({ campo: "documento", valido: true, valor: doc });

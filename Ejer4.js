@@ -33,7 +33,7 @@ const calcularCostos = () =>
   });
 
 // Generación de sugerencias personalizadas al cliente
-// No bloquea el flujo principal; se ejecuta en paralelo con la facturación
+// No bloquea el flujo principal y se ejecuta en paralelo con la facturación
 const generarRecomendaciones = () => 
   new Promise(resolve => {
     setTimeout(() => {
@@ -66,7 +66,7 @@ const enviarFactura = (datos) =>
   });
 
 // Procesa un pedido siguiendo un flujo con dependencias:
-// - stock → costos → factura (secuencia obligatoria)
+// - stock - costos - factura (secuencia obligatoria)
 // - recomendaciones se inicia tras costos, pero no bloquea la factura
 async function procesarPedido(pedido) {
   console.log(`→ Iniciando procesamiento del pedido ${pedido.id}...\n`);
@@ -75,21 +75,21 @@ async function procesarPedido(pedido) {
   const inicio = Date.now(); // Para medir duración total del proceso
 
   try {
-    // Paso 1: Validar stock (requisito previo para continuar)
+    //Validar stock (requisito previo para continuar)
     const stockResult = await validarStock();
     log.push(stockResult);
     console.log(`Stock validado: ${stockResult.stock} unidades disponibles`);
 
-    // Paso 2: Calcular costos (depende del stock verificado)
+    //Calcular costos (depende del stock verificado)
     const costosResult = await calcularCostos();
     log.push(costosResult);
     console.log(`Costos calculados: $${costosResult.total}`);
 
-    // Paso 3: Iniciar generación de recomendaciones (no obligatorio, no bloqueante)
+    //Iniciar generación de recomendaciones (no obligatorio, no bloqueante)
     // Se lanza aquí para aprovechar tiempo, pero no se espera aún
     const promesaRecomendaciones = generarRecomendaciones();
 
-    // Paso 4: Emitir factura (requiere stock y costos validados)
+    //Emitir factura (requiere stock y costos validados)
     const facturaResult = await enviarFactura({ stock: stockResult, costos: costosResult });
     log.push(facturaResult);
     console.log(`Factura generada: ${facturaResult.factura}`);

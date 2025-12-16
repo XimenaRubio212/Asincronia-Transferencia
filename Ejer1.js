@@ -5,9 +5,9 @@ const solicitudes = [
   { usuario: "michi", tiempo: 600 }
 ];
 
-// Función asíncrona que procesa las solicitudes una tras otra (en cola secuencial)
+// Función asíncrona que procesa las solicitudes una tras otra como una cola secuencial
 async function gestionarCola(solicitudes) {
-  console.log("→ Iniciando gestión de cola de atención...\n");
+  console.log("Iniciando gestión de cola de atención...\n");
 
   const log = []; // Almacena detalles de cada atención (para el reporte final)
   const inicioGlobal = Date.now(); // Marca el inicio del proceso completo
@@ -29,7 +29,7 @@ async function gestionarCola(solicitudes) {
         // Guardamos el registro de esta solicitud
         log.push({
           usuario: solicitud.usuario,
-          inicio: new Date(inicio).toISOString().slice(11, 19), // Formato HH:MM:SS
+          inicio: new Date(inicio).toISOString().slice(11, 19),
           fin: new Date(fin).toISOString().slice(11, 19),
           duracion
         });
